@@ -26,6 +26,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     navController = rememberNavController()
+                    // Navigation Component containing routes
                     SetupNavGraph(navController = navController)
                 }
             }
