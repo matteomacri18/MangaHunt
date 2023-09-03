@@ -60,7 +60,7 @@ fun HomeScreen(
     Scaffold(
         modifier = Modifier
             .nestedScroll(scrollBehavior.nestedScrollConnection)
-            .padding(10.dp, 8.dp),
+            .padding(0.dp, 8.dp),
         topBar = {
             TopAppBar(
                 title = {
