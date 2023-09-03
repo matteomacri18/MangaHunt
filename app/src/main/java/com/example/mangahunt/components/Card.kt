@@ -24,6 +24,7 @@ fun Card(
     Surface(
         modifier = Modifier
             .fillMaxSize()
+            .padding(4.dp, 0.dp)
             .shadow(8.dp)
             .offset(0.dp, 0.dp)
     ) {
