@@ -1,6 +1,8 @@
 package com.example.mangahunt.screens
 
 import android.annotation.SuppressLint
+import android.util.Log
+import android.view.View
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -31,9 +33,12 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -41,8 +46,19 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.mangahunt.R
+import com.example.mangahunt.api.MALInterface
+import com.example.mangahunt.api.RetrofitClient
 import com.example.mangahunt.components.Card
 import com.example.mangahunt.components.NavigationBar
+import com.example.mangahunt.models.Mangas
+import com.example.mangahunt.models.MangasItem
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+
+private const val TAG = "HomeScreen"
+private var mangas = Mangas()
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -53,8 +69,13 @@ fun HomeScreen(
     val scrollBehavior = TopAppBarDefaults
         .enterAlwaysScrollBehavior(rememberTopAppBarState())
 
-    val mangas by remember {
-        mutableStateOf(listOf("1", "2", "3", "4", "5", "6", "7", "8"))
+    var mangas by remember {
+        mutableStateOf(Mangas())
+    }
+
+    // Run the api call when the screen is mounted
+    LaunchedEffect(key1 = true) {
+        mangas = fetchMangaList()
     }
 
     Scaffold(
@@ -101,7 +122,7 @@ fun HomeScreen(
                 Spacer(modifier = Modifier.height(16.dp))
                 LazyRow() {
                     items(mangas) { manga ->
-                        Card(manga)
+                        Card(manga.title, manga.picture_url)
                         Spacer(modifier = Modifier.width(16.dp))
                     }
                 }
@@ -111,7 +132,7 @@ fun HomeScreen(
                 Spacer(modifier = Modifier.height(16.dp))
                 LazyRow() {
                     items(mangas) { manga ->
-                        Card(manga)
+                        Card(manga.title, manga.picture_url)
                         Spacer(modifier = Modifier.width(16.dp))
                     }
                 }
@@ -121,7 +142,7 @@ fun HomeScreen(
                 Spacer(modifier = Modifier.height(16.dp))
                 LazyRow() {
                     items(mangas) { manga ->
-                        Card(manga)
+                        Card(manga.title, manga.picture_url)
                         Spacer(modifier = Modifier.width(16.dp))
                     }
                 }
@@ -129,5 +150,16 @@ fun HomeScreen(
                 Spacer(modifier = Modifier.height(36.dp))
             }
         }
+    }
+}
+
+suspend fun fetchMangaList(): Mangas {
+    return try {
+        val client = RetrofitClient.getRetrofitClient()
+        val response = client.getTopManga()
+        response // Restituisci il risultato
+    } catch (e: Exception) {
+        // Gestisci l'errore in qualche modo o lancialo di nuovo se necessario
+        throw e
     }
 }

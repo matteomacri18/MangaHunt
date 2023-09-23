@@ -2,6 +2,8 @@ package com.example.mangahunt.api
 
 import com.example.mangahunt.constants.Constants
 import com.example.mangahunt.models.Mangas
+import com.example.mangahunt.models.MangasItem
+import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Headers
 

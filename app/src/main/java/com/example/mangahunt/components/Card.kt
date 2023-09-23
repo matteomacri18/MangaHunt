@@ -1,7 +1,5 @@
 package com.example.mangahunt.components
 
-import android.media.Image
-import android.provider.Settings.Global.getString
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,7 +13,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
@@ -25,7 +22,7 @@ import com.bumptech.glide.integration.compose.GlideImage
 @Composable
 fun Card(
     title: String,
-    cover: Image
+    cover: String
 ) {
     Surface(
         modifier = Modifier
@@ -44,9 +41,4 @@ fun Card(
             Text(text = title)
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun CardPreview() {
 }
